@@ -6,20 +6,36 @@
 using namespace std;
 
 class Solution {
-public:
+private:
     // TC : O(N)
     // SC : O(1)
-    int maxProfit(vector<int>& prices) {
-        int mini = INT_MAX;
-        int profit = 0;
-        int n = prices.size();
-
-        for (int i = 0; i < n - 1; i++) {
-            mini = min(mini, prices[i]);
-
-            profit = max(profit, prices[i+1] - mini);
+    int way_1(vector<int>& prices, int n) {
+        int minPrice  = prices[0];
+        int maxProfit = 0;
+        for (int i = 0; i < n; i ++) {
+            int profit = prices[i] - minPrice;
+            maxProfit  = max(profit, maxProfit);
+            minPrice   = min(minPrice, prices[i]);
         }
-        
-        return profit;
+        return maxProfit;
+    }
+
+    // TC : O(N)
+    // SC : O(1)
+    int way_2(vector<int>& prices, int n) {
+        int minPrice  = INT_MAX;
+        int maxProfit = 0;
+        for (int i = 0; i < n - 1; i ++) {
+            minPrice   = min(minPrice, prices[i]);
+
+            maxProfit  = max(maxProfit, prices[i + 1] - minPrice);
+        }
+        return maxProfit;
+    }
+public:
+    int maxProfit(vector<int>& prices) {
+        // return way_1(prices, prices.size());
+
+        return way_2(prices, prices.size());
     }
 };
